@@ -11,7 +11,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // 测试 直接跳转到Recycle Activity
-        val intent = Intent(this, MarketActivity::class.java)
+        //val intent = Intent(this, MarketActivity::class.java)
+        //startActivity(intent)
+
+
+        val intent = Intent(this, MarketItemAddActivity::class.java)
         startActivity(intent)
     }
 }

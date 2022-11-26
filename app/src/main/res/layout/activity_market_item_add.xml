@@ -6,72 +6,84 @@
     android:layout_height="match_parent"
     tools:context=".MarketItemAddActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ScrollView
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="510dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="1dp"
-            tools:layout_editor_absoluteY="1dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/add_item_image"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:maxHeight="200dp"
+                android:padding="24dp"
+                android:src="@drawable/ic_camera"
+                app:srcCompat="@drawable/ic_camera" />
+
+            <EditText
+                android:id="@+id/add_item_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:autofillHints="title"
+                android:hint="title"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
+                android:maxLength="20"
+                android:padding="16dp"
+                android:textSize="20sp" />
 
-                <ImageView
-                    android:id="@+id/add_item_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:maxHeight="200dp"
-                    android:padding="24dp"
-                    tools:src="@android:mipmap/sym_def_app_icon" />
+            <EditText
+                android:id="@+id/add_item_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="price"
+                android:singleLine="true"
+                android:inputType="number"
+                android:maxLength="10"
+                android:imeOptions="actionDone"
+                android:hint="price"
+                android:padding="16dp" />
 
-                <EditText
-                    android:id="@+id/add_item_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:autofillHints="title"
-                    android:hint="title"
-                    android:padding="16dp"
-                    android:textSize="20sp" />
+            <EditText
+                android:id="@+id/add_item_condition"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="condition"
+                android:hint="condition"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
+                android:padding="16dp" />
 
-                <EditText
-                    android:id="@+id/add_item_price"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:autofillHints="price"
-                    android:hint="price"
-                    android:padding="16dp" />
+            <EditText
+                android:id="@+id/add_item_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="description"
+                android:hint="description"
+                android:maxLength="100"
+                android:imeOptions="actionDone"
+                android:padding="16dp" />
 
-                <EditText
-                    android:id="@+id/add_item_condition"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:autofillHints="condition"
-                    android:hint="condition"
-                    android:padding="16dp" />
-
-                <EditText
-                    android:id="@+id/add_item_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:autofillHints="description"
-                    android:padding="16dp"
-                    android:hint="description"/>
-
-                <Button
-                    android:id="@+id/item_add_submit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:text="Submit" />
-            </LinearLayout>
-        </ScrollView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <Button
+                android:id="@+id/item_add_submit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="Submit" />
+        </LinearLayout>
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

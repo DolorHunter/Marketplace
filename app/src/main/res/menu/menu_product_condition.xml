@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_used_like_new"
+        android:title="Used - Like New"
+        android:textColor="#04930d"
+        app:showAsAction="always|withText"
+        android:icon="@drawable/ic_chat"/>
+    <item
+        android:id="@+id/action_used_good"
+        android:title="Used - Good"
+        android:textColor="#2240fc"
+        app:showAsAction="always|withText"
+        android:icon="@drawable/ic_share"/>
+    <item
+        android:id="@+id/action_used_fair"
+        android:title="Used - Fair"
+        android:textColor="#a644e5"
+        app:showAsAction="always|withText"
+        android:icon="@drawable/ic_share"/>
+</menu>

@@ -21,6 +21,10 @@ class MarketAdapter(private var itemList: List<ProductData>, private val posterL
         this.myListener = listener
     }
 
+    fun setFilteredList(filteredList: List<ProductData>){
+        this.itemList = filteredList
+        notifyDataSetChanged()
+    }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val itemCardView: CardView = itemView.findViewById(R.id.card_view)
