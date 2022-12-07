@@ -17,15 +17,22 @@ import androidx.core.app.ActivityCompat
 import android.Manifest.permission
 import android.widget.Button
 import android.widget.Toast
+import com.google.android.material.textfield.TextInputLayout
+import com.example.marketplace.databinding.ActivityMarketItemAddBinding
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
 class MarketItemAddActivity : AppCompatActivity(){
+
+
+    private lateinit var binding: ActivityMarketItemAddBinding
     lateinit var userData : UserData
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_market_item_add)
+        binding = ActivityMarketItemAddBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
@@ -43,42 +50,32 @@ class MarketItemAddActivity : AppCompatActivity(){
         appBar.setLogo(R.mipmap.ic_launcher)
         appBar.setDisplayUseLogoEnabled(true)
 
-
-        val addItemImage = findViewById<ImageView>(R.id.add_item_image)
-        val addItemTitle = findViewById<TextView>(R.id.add_item_title)
-        val addItemPrice = findViewById<TextView>(R.id.add_item_price)
-        val addItemCondition = findViewById<TextView>(R.id.add_item_condition)
-        val addItemDescription = findViewById<TextView>(R.id.add_item_description)
-        val addItemSubmit = findViewById<Button>(R.id.item_add_submit)
-
-
-
         if (ActivityCompat.checkSelfPermission(this, permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, arrayOf(permission.CAMERA), 111)
         }
 
-        addItemImage.setOnClickListener {
+        binding.addItemImage.setOnClickListener {
             val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             startActivityForResult(takePictureIntent, 101)
         }
 
-        addItemCondition.inputType = InputType.TYPE_NULL;
-        addItemCondition.setOnClickListener {
-            val popup = PopupMenu(this, addItemCondition)
+        binding.addItemCondition.inputType = InputType.TYPE_NULL;
+        binding.addItemCondition.setOnClickListener {
+            val popup = PopupMenu(this, binding.addItemCondition)
             val menuInflater = popup.menuInflater
             menuInflater.inflate(R.menu.menu_product_condition, popup.menu)
             popup.setOnMenuItemClickListener {
                 when(it.itemId){
                     R.id.action_used_like_new -> {
-                        addItemCondition.text = "Used - Like New"
+                        binding.addItemCondition.text = "Used - Like New"
                         return@setOnMenuItemClickListener true
                     }
                     R.id.action_used_good -> {
-                        addItemCondition.text = "Used - Good"
+                        binding.addItemCondition.text = "Used - Good"
                         return@setOnMenuItemClickListener true
                     }
                     R.id.action_used_fair -> {
-                        addItemCondition.text = "Used - Fair"
+                        binding.addItemCondition.text = "Used - Fair"
                         return@setOnMenuItemClickListener true
                     }
                     else ->{
@@ -89,12 +86,13 @@ class MarketItemAddActivity : AppCompatActivity(){
             popup.show()
         }
 
-        addItemSubmit.setOnClickListener {
+        binding.addItemSubmit.setOnClickListener {
             // add to db
             val current = LocalDateTime.now()
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
             val formatted = current.format(formatter)
 
+            /*
             ProductData(id=10001,
                 name=addItemTitle.text.toString(),
                 price=addItemPrice.text.toString().toFloat(),
@@ -109,7 +107,9 @@ class MarketItemAddActivity : AppCompatActivity(){
                 status="1"
             )
 
-            val title = addItemTitle.text
+             */
+
+            val title = binding.addItemTitle.text.toString()
             Toast.makeText(this, "$title has submitted to Marketplace.", Toast.LENGTH_SHORT).show()
 
             val intent = Intent(this, MarketActivity::class.java)
