@@ -4,6 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.ActionMode
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.Toolbar
@@ -12,9 +15,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import org.w3c.dom.Text
 
-class UserProfileActivity : AppCompatActivity(){
+class UserProfileActivity : AppCompatActivity(), UserProfileAdapter.MyItemClickListener {
 
     private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var rAdapter: UserProfileAdapter
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,8 +88,9 @@ class UserProfileActivity : AppCompatActivity(){
         user_profile_rview.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this )
 
 
-        val my_listing = ProductList().productList.filter { it.sellerId == userId }
-        val rAdapter = UserProfileAdapter(my_listing, ProductList().posterMap, userId)
+        var my_listing = ProductList().productList.filter { it.sellerId == userId } as MutableList<ProductData>
+        rAdapter = UserProfileAdapter(my_listing, ProductList().posterMap, userId)
+        rAdapter.setMyItemClickListener(this)
         user_profile_rview.adapter = rAdapter
 
 
@@ -125,6 +130,35 @@ class UserProfileActivity : AppCompatActivity(){
                 return false
             }
         })
+
+    }
+
+    override fun onItemClick(view: View, position: Int) {
+        val intent = Intent(this, MarketItemDetailActivity::class.java)
+        firebaseAuth = FirebaseAuth.getInstance()
+        val userId = UserList().userMap[firebaseAuth.currentUser?.uid.toString()]
+        var my_listing = ProductList().productList.filter { it.sellerId == userId }
+        val idx = findIndex(my_listing[position])
+        intent.putExtra("position", idx)
+        startActivity(intent)
+    }
+
+    override fun onOverflowMenuClickedFromAdapter(view: View, position: Int) {
+        val popup = PopupMenu(this, view)
+        val menuInflater = popup.menuInflater
+        menuInflater.inflate(R.menu.menu_popup, popup.menu)
+        popup.setOnMenuItemClickListener {
+            when(it.itemId){
+                R.id.action_rem -> {
+                    rAdapter.deleteProduct(position)
+                    return@setOnMenuItemClickListener true
+                }
+                else ->{
+                    return@setOnMenuItemClickListener false
+                }
+            }
+        }
+        popup.show()
     }
 
 

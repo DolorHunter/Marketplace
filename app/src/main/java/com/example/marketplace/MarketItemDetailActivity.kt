@@ -14,7 +14,6 @@ import com.google.android.gms.maps.MapView
 
 
 class MarketItemDetailActivity : AppCompatActivity() {
-    private lateinit var sellerInfo: List<UserData>
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -98,6 +97,8 @@ class MarketItemDetailActivity : AppCompatActivity() {
                 callIntent.data = Uri.parse("tel:123456789")
                 startActivity(callIntent)
             }
+        }else{
+            Toast.makeText(this, "No position for detail.", Toast.LENGTH_SHORT).show()
         }
     }
 

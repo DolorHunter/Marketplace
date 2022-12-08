@@ -18,6 +18,15 @@ class ProductList {
     }
 }
 
+fun findIndex(product: ProductData): Int{
+    val id = product.id
+    ProductList().productList.forEachIndexed  { index, element ->
+        if (element.id == id)
+            return index
+    }
+    return -1
+}
+
 data class ProductData(
     var id: Int,
     var name: String,

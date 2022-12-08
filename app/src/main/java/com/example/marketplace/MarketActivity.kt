@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth
 class MarketActivity : AppCompatActivity(), MarketAdapter.MyItemClickListener{
 
     private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var rAdapter: MarketAdapter
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,7 +67,7 @@ class MarketActivity : AppCompatActivity(), MarketAdapter.MyItemClickListener{
         val rview_market = findViewById<RecyclerView>(R.id.rview_market)
         rview_market.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this )
 
-        val rAdapter = MarketAdapter(ProductList().productList, ProductList().posterMap, userId!!)
+        rAdapter = MarketAdapter(ProductList().productList, ProductList().posterMap, userId!!)
         rAdapter.setMyItemClickListener(this)
         rview_market.adapter = rAdapter
 

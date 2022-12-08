@@ -9,10 +9,33 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import com.google.gson.Gson
 
-class UserProfileAdapter(private var itemList: List<ProductData>, private val posterList: MutableMap<String, Int>, private val myId: Int) :
+class UserProfileAdapter(private var itemList: MutableList<ProductData>, private val posterList: MutableMap<String, Int>, private val myId: Int) :
     RecyclerView.Adapter<UserProfileAdapter.ViewHolder>() {
-    fun setFilteredList(filteredList: List<ProductData>){
+
+    var myListener: MyItemClickListener? = null
+
+    interface MyItemClickListener {
+        fun onItemClick(view: View, position: Int)
+        fun onOverflowMenuClickedFromAdapter(view: View, position: Int)
+    }
+
+    fun setMyItemClickListener (listener: UserProfileActivity){
+        this.myListener = listener
+    }
+
+    fun deleteProduct(position: Int){
+        val idx = findIndex(itemList[position])
+        itemList.removeAt(position)
+        var productList: MutableList<ProductData> = Gson().fromJson(products, Array<ProductData>::class.java).toMutableList()
+        productList.removeAt(idx)
+        products = Gson().toJson(productList)
+        notifyItemRemoved(idx)
+        notifyDataSetChanged()
+    }
+
+    fun setFilteredList(filteredList: MutableList<ProductData>){
         this.itemList = filteredList
         notifyDataSetChanged()
     }
@@ -27,6 +50,20 @@ class UserProfileAdapter(private var itemList: List<ProductData>, private val po
         val itemListedDate: TextView = itemView.findViewById(R.id.market_item_listedDate)
 
         init {
+            itemCardView.setOnClickListener {
+                if (myListener != null) {
+                    myListener!!.onItemClick(it, adapterPosition)
+                }
+            }
+
+            itemCardView.setOnLongClickListener {
+                if (myListener != null) {
+                    if(adapterPosition != RecyclerView.NO_POSITION){
+                        myListener!!.onOverflowMenuClickedFromAdapter(it, adapterPosition)
+                    }
+                }
+                return@setOnLongClickListener true
+            }
         }
     }
 

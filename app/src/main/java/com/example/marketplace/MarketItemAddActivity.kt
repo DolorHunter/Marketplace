@@ -98,17 +98,18 @@ class MarketItemAddActivity : AppCompatActivity(){
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
             val formatted = current.format(formatter)
 
-
-            var product = ProductList().productList[0].copy()
-            product.name = binding.addItemTitle.text.toString()
-            product.condition = binding.addItemCondition.text.toString()
-            product.description = binding.addItemCondition.text.toString()
-            product.price = binding.addItemPrice.text.toString().toFloat()
-            product.listedDate = formatted
-
-            product.sellerId = userId!!
-            product.sellerName = UserList().userList[userId].name
-
+            var product = ProductData(
+                id = 3006,
+                name = binding.addItemTitle.text.toString(),
+                condition = binding.addItemCondition.text.toString(),
+                description = binding.addItemCondition.text.toString(),
+                price = binding.addItemPrice.text.toString().toFloat(),
+                listedDate = formatted,
+                sellerId = userId!!,
+                sellerName = UserList().userList[userId].name,
+                zip = "13210",
+                status = "1"
+            )
 
             var productList: MutableList<ProductData> = Gson().fromJson(products, Array<ProductData>::class.java).toMutableList()
             productList.add(product)
