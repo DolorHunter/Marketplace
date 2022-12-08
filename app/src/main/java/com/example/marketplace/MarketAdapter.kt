@@ -8,8 +8,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import com.google.firebase.auth.FirebaseAuth
 
-class MarketAdapter(private var itemList: List<ProductData>, private val posterList: MutableMap<String, Int>) :
+class MarketAdapter(private var itemList: List<ProductData>, private val posterList: MutableMap<String, Int>, private val myId: Int) :
     RecyclerView.Adapter<MarketAdapter.ViewHolder>() {
 
     var myListener: MyItemClickListener? = null
@@ -47,7 +48,6 @@ class MarketAdapter(private var itemList: List<ProductData>, private val posterL
 
 
     override fun getItemViewType(position: Int): Int {
-        val myId = -1
         return if (itemList[position].sellerId == myId){
             1
         } else {

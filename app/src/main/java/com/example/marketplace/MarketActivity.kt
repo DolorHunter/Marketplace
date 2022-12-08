@@ -10,13 +10,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 
 class MarketActivity : AppCompatActivity(), MarketAdapter.MyItemClickListener{
+
+    private lateinit var firebaseAuth: FirebaseAuth
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_market)
+
+        firebaseAuth = FirebaseAuth.getInstance()
+        val userId = UserList().userMap[firebaseAuth.currentUser?.uid.toString()]
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
 
@@ -60,7 +66,7 @@ class MarketActivity : AppCompatActivity(), MarketAdapter.MyItemClickListener{
         val rview_market = findViewById<RecyclerView>(R.id.rview_market)
         rview_market.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this )
 
-        val rAdapter = MarketAdapter(ProductList().productList, ProductList().posterMap)
+        val rAdapter = MarketAdapter(ProductList().productList, ProductList().posterMap, userId!!)
         rAdapter.setMyItemClickListener(this)
         rview_market.adapter = rAdapter
 
@@ -102,6 +108,16 @@ class MarketActivity : AppCompatActivity(), MarketAdapter.MyItemClickListener{
         })
 
 
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+
+        if(firebaseAuth.currentUser == null){
+            val intent = Intent(this, SignInActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onItemClick(view: View, position: Int) {

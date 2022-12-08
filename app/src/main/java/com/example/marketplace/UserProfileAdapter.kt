@@ -10,18 +10,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 
-class UserProfileAdapter(private var itemList: List<ProductData>, private val posterList: MutableMap<String, Int>) :
+class UserProfileAdapter(private var itemList: List<ProductData>, private val posterList: MutableMap<String, Int>, private val myId: Int) :
     RecyclerView.Adapter<UserProfileAdapter.ViewHolder>() {
-
-    var myListener: MyItemClickListener? = null
-    interface MyItemClickListener {
-        fun onItemClick(view: View, position: Int)
-    }
-
-    fun setMyItemClickListener (listener: UserProfileActivity){
-        this.myListener = listener
-    }
-
     fun setFilteredList(filteredList: List<ProductData>){
         this.itemList = filteredList
         notifyDataSetChanged()
@@ -37,18 +27,12 @@ class UserProfileAdapter(private var itemList: List<ProductData>, private val po
         val itemListedDate: TextView = itemView.findViewById(R.id.market_item_listedDate)
 
         init {
-            itemCardView.setOnClickListener {
-                if (myListener != null) {
-                    myListener!!.onItemClick(it, adapterPosition)
-                }
-            }
         }
     }
 
 
 
     override fun getItemViewType(position: Int): Int {
-        val myId = -1
         return if (itemList[position].sellerId == myId){
             1
         } else {

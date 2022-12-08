@@ -19,11 +19,15 @@ import android.widget.Button
 import android.widget.Toast
 import com.google.android.material.textfield.TextInputLayout
 import com.example.marketplace.databinding.ActivityMarketItemAddBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.gson.Gson
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
 class MarketItemAddActivity : AppCompatActivity(){
+
+    private lateinit var firebaseAuth: FirebaseAuth
 
 
     private lateinit var binding: ActivityMarketItemAddBinding
@@ -34,6 +38,8 @@ class MarketItemAddActivity : AppCompatActivity(){
         binding = ActivityMarketItemAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        firebaseAuth = FirebaseAuth.getInstance()
+        val userId = UserList().userMap[firebaseAuth.currentUser?.uid.toString()]
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
 
@@ -92,22 +98,21 @@ class MarketItemAddActivity : AppCompatActivity(){
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
             val formatted = current.format(formatter)
 
-            /*
-            ProductData(id=10001,
-                name=addItemTitle.text.toString(),
-                price=addItemPrice.text.toString().toFloat(),
-                condition=addItemCondition.text.toString(),
-                description=addItemDescription.text.toString(),
-                listedDate=formatted,
-                zip=userData.zip,
-                sellerId=userData.id,
-                sellerName=userData.name,
-                buyerId=-1,
-                buyerName="",
-                status="1"
-            )
 
-             */
+            var product = ProductList().productList[0].copy()
+            product.name = binding.addItemTitle.text.toString()
+            product.condition = binding.addItemCondition.text.toString()
+            product.description = binding.addItemCondition.text.toString()
+            product.price = binding.addItemPrice.text.toString().toFloat()
+            product.listedDate = formatted
+
+            product.sellerId = userId!!
+            product.sellerName = UserList().userList[userId].name
+
+
+            var productList: MutableList<ProductData> = Gson().fromJson(products, Array<ProductData>::class.java).toMutableList()
+            productList.add(product)
+            products = Gson().toJson(productList)
 
             val title = binding.addItemTitle.text.toString()
             Toast.makeText(this, "$title has submitted to Marketplace.", Toast.LENGTH_SHORT).show()
@@ -137,5 +142,15 @@ class MarketItemAddActivity : AppCompatActivity(){
             addItemImage.setImageBitmap(pic)
         }
     }
+
+    override fun onStart() {
+        super.onStart()
+
+        if(firebaseAuth.currentUser == null){
+            val intent = Intent(this, SignInActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
 
 }

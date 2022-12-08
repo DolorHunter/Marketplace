@@ -5,6 +5,7 @@ import com.google.gson.Gson
 class UserList{
     val userList: List<UserData> = Gson().fromJson(users, Array<UserData>::class.java).asList()
     val avatarMap: MutableMap<Int, Int> = mutableMapOf()
+    val userMap: MutableMap<String, Int> = mutableMapOf()
 
     init {
         avatarMap[0] = R.drawable.kyle
@@ -13,6 +14,13 @@ class UserList{
         avatarMap[3] = R.drawable.lexie
         avatarMap[4] = R.drawable.alexander
         avatarMap[5] = R.drawable.maximillion
+
+        userMap["F9fOq6JttZN9qlUuZikjecmntHL2"] = 0
+        userMap["8C4yBlVgdFNkLz4vnirB5cGhq1g2"] = 1
+        userMap["VfuhEbmt8ncJWbBmMibzyIcGqBh1"] = 2
+        userMap["wJqDWByavdRnAUmU6DbGOw5cQ6l2"] = 3
+        userMap["9OuLe8C2pAdkPeV5WvrC5m6h3YJ2"] = 4
+        userMap["Xlsuew3d3phW08KV5kgd0Dm9ACx1"] = 5
     }
 }
 

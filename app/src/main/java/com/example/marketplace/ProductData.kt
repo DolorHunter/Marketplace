@@ -4,7 +4,7 @@ import com.google.gson.Gson
 
 
 class ProductList {
-    val productList: List<ProductData> = Gson().fromJson(products, Array<ProductData>::class.java).toMutableList()
+    val productList: MutableList<ProductData> = Gson().fromJson(products, Array<ProductData>::class.java).toMutableList()
     val posterMap: MutableMap<String, Int> = mutableMapOf()
 
     init {
@@ -14,24 +14,23 @@ class ProductList {
         posterMap["2017 Toyota RAV4-DEALER EN PAGOS—"] = R.drawable.toyota
         posterMap["Large Wheeled Container - Husky 45 Gallon Wheeled Tote"] = R.drawable.container
         posterMap["Dresser"] = R.drawable.dresser
+        posterMap["demo"] = R.drawable.demo_product
     }
 }
 
 data class ProductData(
-    val id: Int,
-    val name: String,
-    val price: Float,
-    val condition: String,
-    val description: String,
-    val listedDate: String,
-    val zip: String,
-    val sellerId: Int,
-    val sellerName: String,
-    val buyerId: Int,
-    val buyerName: String,
-    val status: String
+    var id: Int,
+    var name: String,
+    var price: Float,
+    var condition: String,
+    var description: String,
+    var listedDate: String,
+    var zip: String,
+    var sellerId: Int,
+    var sellerName: String,
+    var status: String
 )
-val products = """
+var products = """
 [
     {
         "id": 3000,

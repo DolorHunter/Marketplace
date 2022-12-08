@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="150dp"
         app:boxStrokeColor="@color/yellow"
         app:hintTextColor="@color/yellow"
         app:layout_constraintEnd_toEndOf="parent"
