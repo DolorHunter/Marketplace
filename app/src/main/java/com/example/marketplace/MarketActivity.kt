@@ -24,6 +24,12 @@ class MarketActivity : AppCompatActivity(), MarketAdapter.MyItemClickListener{
 
         firebaseAuth = FirebaseAuth.getInstance()
         val userId = UserList().userMap[firebaseAuth.currentUser?.uid.toString()]
+        if (userId == null){
+            firebaseAuth.signOut()
+            val intent = Intent(this, SignInActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
 
