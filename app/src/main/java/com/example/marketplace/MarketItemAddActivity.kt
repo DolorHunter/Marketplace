@@ -1,23 +1,25 @@
 package com.example.marketplace
 
-import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
-import android.provider.MediaStore.Audio.Media
 import android.text.InputType
 import android.widget.ImageView
 import android.widget.PopupMenu
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import android.Manifest.permission
-import android.widget.Button
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
+import android.view.View
 import android.widget.Toast
-import com.google.android.material.textfield.TextInputLayout
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.example.marketplace.databinding.ActivityMarketItemAddBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
@@ -25,13 +27,10 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
-class MarketItemAddActivity : AppCompatActivity(){
+class MarketItemAddActivity : AppCompatActivity() {
 
     private lateinit var firebaseAuth: FirebaseAuth
-
-
     private lateinit var binding: ActivityMarketItemAddBinding
-    lateinit var userData : UserData
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,7 +101,7 @@ class MarketItemAddActivity : AppCompatActivity(){
                 id = 3006,
                 name = binding.addItemTitle.text.toString(),
                 condition = binding.addItemCondition.text.toString(),
-                description = binding.addItemCondition.text.toString(),
+                description = binding.addItemDescription.text.toString(),
                 price = binding.addItemPrice.text.toString().toFloat(),
                 listedDate = formatted,
                 sellerId = userId!!,
@@ -118,8 +117,22 @@ class MarketItemAddActivity : AppCompatActivity(){
             val title = binding.addItemTitle.text.toString()
             Toast.makeText(this, "$title has submitted to Marketplace.", Toast.LENGTH_SHORT).show()
 
+            // Notification new item
+            var builder = NotificationCompat.Builder(this,"pickerChannel")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("New item is posted!!")
+                .setContentText(binding.addItemTitle.text.toString() + " for $" + binding.addItemPrice.text.toString() + '.')
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+            with(NotificationManagerCompat.from(this)) {
+                // notification id should be unique in project.
+                // I just add 0.
+                notify(0,builder.build())
+            }
+
             val intent = Intent(this, MarketActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
     }
