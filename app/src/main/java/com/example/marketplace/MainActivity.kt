@@ -15,6 +15,7 @@ class MainActivity : AppCompatActivity() {
 
         val intent = Intent(this, SignUpActivity::class.java)
         startActivity(intent)
+        finish()
 
         // 测试 直接跳转到Recycle Activity
         //val intent = Intent(this, MarketActivity::class.java)

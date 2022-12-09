@@ -5,17 +5,23 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.service.autofill.UserData
 import android.view.Menu
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 
 
-class MarketItemDetailActivity : AppCompatActivity() {
+class MarketItemDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
-    @SuppressLint("SetTextI18n")
+    private lateinit var mMap: GoogleMap
+
+    @SuppressLint("SetTextI18n", "CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_market_item_detail)
@@ -78,7 +84,8 @@ class MarketItemDetailActivity : AppCompatActivity() {
             itemListedDate.text = curItem.listedDate
 
             // Google Maps
-            val itemMap: MapView = findViewById(R.id.mapView)
+            val mapFragment = supportFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
+            mapFragment.getMapAsync(this)
 
 
             val itemSellerName: TextView = findViewById(R.id.market_item_detail_seller)
@@ -138,6 +145,16 @@ class MarketItemDetailActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+
+        val SYR = LatLng(43.039, -76.137)
+        mMap.addMarker(MarkerOptions().position(SYR))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(SYR))
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(12f))
+
     }
 
 }
